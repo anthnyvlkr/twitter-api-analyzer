@@ -22,8 +22,4 @@
       <ProjectReference Include="..\TwitterAPI.Analyzer.Common\TwitterAPI.Analyzer.Common.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Middleware" />
-    </ItemGroup>
-
 </Project>

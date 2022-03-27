@@ -1,4 +1,5 @@
 using Serilog;
+using TwitterAPI.Analyzer.API.Middleware;
 using TwitterAPI.Analyzer.API.Services;
 using TwitterAPI.Analyzer.Common.BackgroundServices;
 using TwitterAPI.Analyzer.Common.Configuration;
@@ -11,8 +12,6 @@ using ILogger = Serilog.ILogger;
 var builder = WebApplication.CreateBuilder(args);
 
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-// read appsettings
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false)
@@ -55,8 +54,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
