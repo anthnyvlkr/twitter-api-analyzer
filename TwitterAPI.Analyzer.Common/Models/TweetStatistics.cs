@@ -2,7 +2,7 @@ namespace TwitterAPI.Analyzer.Common.Models;
 
 public class TweetStatistics
 {
-    public int TotalCount { get; init; }
+    public long TotalCount { get; init; }
     public double PerMinute { get; init; }
     public double PerSecond { get; init; }
 
