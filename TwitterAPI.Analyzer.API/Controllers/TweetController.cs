@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Tweetinvi.Models.V2;
 using TwitterAPI.Analyzer.API.Services;
-using ILogger = Serilog.ILogger;
 
 namespace TwitterAPI.Analyzer.API.Controllers;
 
@@ -10,18 +9,35 @@ namespace TwitterAPI.Analyzer.API.Controllers;
 public class TweetController : ControllerBase
 {
     private readonly ITwitterClientService _twitterClientService;
-    private readonly ILogger _logger;
 
     public TweetController(
-        ITwitterClientService twitterClientService,
-        ILogger logger)
+        ITwitterClientService twitterClientService)
     {
         _twitterClientService = twitterClientService ?? throw new ArgumentNullException(nameof(twitterClientService));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+    
+    [HttpGet("tweetIds")]
+    public ActionResult<TweetV2> GetRecentTweetIds()
+    {
+        var recentTweetIds = _twitterClientService.GetRecentTweetIds();
+
+        if (!recentTweetIds.Any()) return NoContent();
+        
+        return Ok(recentTweetIds);
     }
 
+    [HttpGet]
+    public async Task<ActionResult<TweetV2>> GetTweetByIdAsync(string tweetId)
+    {
+        var response = await _twitterClientService.GetTweetByIdAsync(tweetId);
+
+        if (response is null) return NotFound();
+        
+        return Ok(response.Tweet);
+    }
+    
     [HttpGet("random")]
-    public async Task<ActionResult<TweetV2>> GetCurrentTweetStatistics()
+    public async Task<ActionResult<TweetV2>> GetCurrentTweetStatisticsAsync()
     {
         var response = await _twitterClientService.GetRandomTweet();
 
@@ -29,4 +45,5 @@ public class TweetController : ControllerBase
         
         return Ok(response.Tweet);
     }
+    
 }

@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TwitterAPI.Analyzer.API.Services;
 using TwitterAPI.Analyzer.Common.Models;
 using TwitterAPI.Analyzer.Common.Services;
-using ILogger = Serilog.ILogger;
 
 namespace TwitterAPI.Analyzer.API.Controllers;
 
@@ -11,15 +9,11 @@ namespace TwitterAPI.Analyzer.API.Controllers;
 public class TwitterStatisticsController : ControllerBase
 {
     private readonly ITweetCalculationService _tweetCalculationService;
-    private readonly ILogger _logger;
 
     public TwitterStatisticsController(
-        ITweetCalculationService tweetCalculationService,
-        ITwitterClientService twitterClientService,
-        ILogger logger)
+        ITweetCalculationService tweetCalculationService)
     {
         _tweetCalculationService = tweetCalculationService ?? throw new ArgumentNullException(nameof(tweetCalculationService));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet]

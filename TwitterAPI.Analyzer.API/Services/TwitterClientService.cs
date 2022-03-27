@@ -20,9 +20,52 @@ public class TwitterClientService : ITwitterClientService
         _twitterRepository = twitterRepository ?? throw new ArgumentNullException(nameof(twitterRepository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
+
+    public string[] GetRecentTweetIds()
+    {
+        _logger.Verbose("{Class}.{Method}: Beginning Execution",
+            nameof(TwitterClientService), nameof(GetRecentTweetIds));
+        
+        try
+        {
+            return _twitterRepository.GetTweetIds();
+        }
+        finally
+        {
+            _logger.Verbose("{Class}.{Method}: Complete",
+                nameof(TwitterClientService), nameof(GetRecentTweetIds));
+        }
+    }
+
+    public async Task<TweetV2Response?> GetTweetByIdAsync(string id)
+    {
+        _logger.Verbose("{Class}.{Method}: Beginning Execution",
+            nameof(TwitterClientService), nameof(GetTweetByIdAsync));
+        
+        try
+        {
+            var twitterClient = _twitterClientFactory.CreateTwitterClient();
+            return await twitterClient.TweetsV2.GetTweetAsync(id);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while retrieving tweet by Id {id}",
+                nameof(TwitterClientService), nameof(GetRandomTweet), id);
+
+            return null;
+        }
+        finally
+        {
+            _logger.Verbose("{Class}.{Method}: Complete",
+                nameof(TwitterClientService), nameof(GetTweetByIdAsync));
+        }
+    } 
     
     public async Task<TweetV2Response?> GetRandomTweet()
     {
+        _logger.Verbose("{Class}.{Method}: Beginning Execution",
+            nameof(TwitterClientService), nameof(GetRandomTweet));
+
         try
         {
             var randomTweetIds = _twitterRepository.GetTweetIds();
@@ -34,10 +77,15 @@ public class TwitterClientService : ITwitterClientService
         }
         catch (Exception e)
         {
-            _logger.Error(e, "{Class}.{Method}: Exception occurred while retrieving current trends",
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while retrieving random tweet",
                 nameof(TwitterClientService), nameof(GetRandomTweet));
 
             return null;
+        }
+        finally
+        {
+            _logger.Verbose("{Class}.{Method}: Complete",
+                nameof(TwitterClientService), nameof(GetRandomTweet));
         }
     }
 }
