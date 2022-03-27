@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Common", "TwitterAPI.Analyzer.Common\TwitterAPI.Analyzer.Common.csproj", "{4C089B77-53F9-4838-B4C3-A91AFF759BDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.API", "TwitterAPI.Analyzer.API\TwitterAPI.Analyzer.API.csproj", "{04C0B6E0-4238-42B7-86BC-8E4AB701F0D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Storage", "TwitterAPI.Analyzer.Storage\TwitterAPI.Analyzer.Storage.csproj", "{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{4C089B77-53F9-4838-B4C3-A91AFF759BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C089B77-53F9-4838-B4C3-A91AFF759BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C089B77-53F9-4838-B4C3-A91AFF759BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C0B6E0-4238-42B7-86BC-8E4AB701F0D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C0B6E0-4238-42B7-86BC-8E4AB701F0D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C0B6E0-4238-42B7-86BC-8E4AB701F0D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C0B6E0-4238-42B7-86BC-8E4AB701F0D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
