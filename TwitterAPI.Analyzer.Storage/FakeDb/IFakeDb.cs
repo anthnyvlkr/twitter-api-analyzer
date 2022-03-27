@@ -5,8 +5,9 @@ namespace TwitterAPI.Analyzer.Storage.FakeDb;
 public interface IFakeDb
 {
     void SaveCount();
-    void SaveTweet(TweetV2 tweet);
-    TweetV2? GetTweetById(string tweetId);
+    void SaveTweetId(TweetV2 tweet);
+    public void SaveHashtag(HashtagV2[] hashtags);
     long GetTweetCount();
     string[] GetTweetIds();
+    Dictionary<string, long> GetHashtags();
 }

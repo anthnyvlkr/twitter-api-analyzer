@@ -17,23 +17,72 @@ public class TwitterRepository : ITwitterRepository
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public void SaveTweetAsync(TweetV2 tweet)
+    public void SaveTweet(TweetV2 tweet)
     {
-        _fakeDb.SaveTweet(tweet);
+        try
+        {
+            _fakeDb.SaveTweetId(tweet);
+        
+            if (tweet.Entities.Hashtags != null && tweet.Entities.Hashtags.Any()) 
+                _fakeDb.SaveHashtag(tweet.Entities.Hashtags);
+        }
+        catch (Exception e)
+        {
+            // todo:
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public void IncrementTweetCount()
     {
-        _fakeDb.SaveCount();
+        try
+        {
+            _fakeDb.SaveCount();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
     
     public long GetTweetCount()
     {
-        return _fakeDb.GetTweetCount();
+        try
+        {
+            return _fakeDb.GetTweetCount();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public string[] GetTweetIds()
     {
-        return _fakeDb.GetTweetIds();
+        try
+        {
+            return _fakeDb.GetTweetIds();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    public Dictionary<string, long> GetHashtags()
+    {
+        try
+        {
+            return _fakeDb.GetHashtags();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

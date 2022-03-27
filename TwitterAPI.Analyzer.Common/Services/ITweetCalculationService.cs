@@ -10,4 +10,5 @@ public interface ITweetCalculationService
     public void StopTimer();
     void ReceivedTweetEvent(TweetV2 tweet);
     TweetStatistics? GetTweetStreamStatistics();
+    IEnumerable<HashtagStatistics>? GetHashtagStatistics();
 }

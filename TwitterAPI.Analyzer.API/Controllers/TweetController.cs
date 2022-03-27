@@ -17,7 +17,7 @@ public class TweetController : ControllerBase
     }
     
     [HttpGet("tweetIds")]
-    public ActionResult<TweetV2> GetRecentTweetIds()
+    public ActionResult<IEnumerable<long>> GetRecentTweetIds()
     {
         var recentTweetIds = _twitterClientService.GetRecentTweetIds();
 

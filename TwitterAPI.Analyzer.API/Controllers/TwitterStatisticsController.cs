@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using TwitterAPI.Analyzer.Common.Models;
 using TwitterAPI.Analyzer.Common.Services;
@@ -24,5 +25,17 @@ public class TwitterStatisticsController : ControllerBase
         if (tweetStatistics is null) return NotFound(tweetStatistics);
         
         return Ok(tweetStatistics);
+    }
+    
+    [HttpGet("hashtags")]
+    public ActionResult<HashtagStatistics> GetHashtagStatistics()
+    {
+        var hashtagStatistics = _tweetCalculationService.GetHashtagStatistics();
+
+        if (hashtagStatistics == null) return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+        
+        if (!hashtagStatistics.Any()) return NoContent();
+
+        return Ok(hashtagStatistics);
     }
 }

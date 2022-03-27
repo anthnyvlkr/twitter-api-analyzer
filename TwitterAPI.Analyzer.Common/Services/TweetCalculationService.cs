@@ -12,8 +12,7 @@ public class TweetCalculationService : ITweetCalculationService
     private readonly ITwitterRepository _twitterRepository;
     private readonly ILogger _logger;
     private readonly Stopwatch _stopwatch;
-    
-    
+
     public TweetCalculationService(
         ITwitterRepository twitterRepository, 
         ILogger logger)
@@ -34,13 +33,13 @@ public class TweetCalculationService : ITweetCalculationService
         Task.Run(() =>
         {
             _twitterRepository.IncrementTweetCount();
-            _twitterRepository.SaveTweetAsync(tweet);
+            _twitterRepository.SaveTweet(tweet);
         });
     }
     
     private static double CalculateTweetsPerMinute(TimeSpan timeSpan, long count) => count / timeSpan.TotalMinutes;
     private static double CalculateTweetsPerSecond(TimeSpan timeSpan, long count) => count / timeSpan.TotalSeconds;
-    
+
     public TweetStatistics GetTweetStreamStatistics()
     {
         _logger.Verbose("{Class}.{Method}: Beginning Execution",
@@ -48,8 +47,7 @@ public class TweetCalculationService : ITweetCalculationService
 
         try
         {
-            // get count and elapsed at this point to avoid
-            // count increasing or time continuing
+            // get count and elapsed at this point to avoid count increasing or time continuing
             var count = _twitterRepository.GetTweetCount();
             var elapsedTimeSpan = _stopwatch.Elapsed;
 
@@ -68,13 +66,43 @@ public class TweetCalculationService : ITweetCalculationService
         {
             _logger.Error(e, "{Class}.{Method}: Exception occurred while calculating statistics",
                 nameof(TweetCalculationService), nameof(GetTweetStreamStatistics));
-            
+
             throw new TweetCalculationServiceException("An error occurred while calculating statistics", e);
         }
         finally
         {
             _logger.Verbose("{Class}.{Method}: Execution Complete",
                 nameof(TweetCalculationService), nameof(GetTweetStreamStatistics));
+        }
+    }
+
+    public IEnumerable<HashtagStatistics>? GetHashtagStatistics()
+    {
+        _logger.Verbose("{Class}.{Method}: Beginning Execution",
+            nameof(TweetCalculationService), nameof(GetHashtagStatistics));
+
+        try
+        {
+            return _twitterRepository
+                .GetHashtags()
+                .Select(c => new HashtagStatistics
+                {
+                    HashTag = c.Key,
+                    Count = c.Value
+                })
+                .OrderByDescending(c => c.Count);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while retrieving hashtag statistics",
+                nameof(TweetCalculationService), nameof(GetHashtagStatistics));
+
+            return null;
+        }
+        finally
+        {
+            _logger.Verbose("{Class}.{Method}: Execution Complete",
+                nameof(TweetCalculationService), nameof(GetHashtagStatistics));
         }
     }
 }
