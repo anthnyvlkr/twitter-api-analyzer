@@ -1,5 +1,7 @@
 using Tweetinvi.Models.V2;
+using TwitterAPI.Analyzer.Common.Exceptions;
 using TwitterAPI.Analyzer.Common.Factory;
+using TwitterAPI.Analyzer.Storage.Exceptions;
 using TwitterAPI.Analyzer.Storage.Repository;
 using ILogger = Serilog.ILogger;
 
@@ -21,7 +23,7 @@ public class TwitterClientService : ITwitterClientService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public string[] GetRecentTweetIds()
+    public string[]? GetRecentTweetIds()
     {
         _logger.Verbose("{Class}.{Method}: Beginning Execution",
             nameof(TwitterClientService), nameof(GetRecentTweetIds));
@@ -29,6 +31,13 @@ public class TwitterClientService : ITwitterClientService
         try
         {
             return _twitterRepository.GetTweetIds();
+        }
+        catch (TwitterRepositoryException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while getting recent tweetIds",
+                nameof(TwitterClientService), nameof(GetRecentTweetIds));
+
+            return null;
         }
         finally
         {
@@ -47,10 +56,17 @@ public class TwitterClientService : ITwitterClientService
             var twitterClient = _twitterClientFactory.CreateTwitterClient();
             return await twitterClient.TweetsV2.GetTweetAsync(id);
         }
+        catch (TwitterClientFactoryException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while creating TwitterClient",
+                nameof(TwitterClientService), nameof(GetTweetByIdAsync));
+
+            return null;
+        }
         catch (Exception e)
         {
             _logger.Error(e, "{Class}.{Method}: Exception occurred while retrieving tweet by Id {id}",
-                nameof(TwitterClientService), nameof(GetRandomTweet), id);
+                nameof(TwitterClientService), nameof(GetTweetByIdAsync), id);
 
             return null;
         }
@@ -74,6 +90,13 @@ public class TwitterClientService : ITwitterClientService
             
             var twitterClient = _twitterClientFactory.CreateTwitterClient();
             return await twitterClient.TweetsV2.GetTweetAsync(randomId);
+        }
+        catch (TwitterRepositoryException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while getting a random tweet",
+                nameof(TwitterClientService), nameof(GetRandomTweet));
+
+            return null;
         }
         catch (Exception e)
         {

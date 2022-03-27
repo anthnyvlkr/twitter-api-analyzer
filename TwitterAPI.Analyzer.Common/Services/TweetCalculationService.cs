@@ -3,6 +3,7 @@ using Serilog;
 using Tweetinvi.Models.V2;
 using TwitterAPI.Analyzer.Common.Exceptions;
 using TwitterAPI.Analyzer.Common.Models;
+using TwitterAPI.Analyzer.Storage.Exceptions;
 using TwitterAPI.Analyzer.Storage.Repository;
 
 namespace TwitterAPI.Analyzer.Common.Services;
@@ -30,11 +31,19 @@ public class TweetCalculationService : ITweetCalculationService
     
     public void ReceivedTweetEvent(TweetV2  tweet)
     {
-        Task.Run(() =>
+        try
         {
-            _twitterRepository.IncrementTweetCount();
-            _twitterRepository.SaveTweet(tweet);
-        });
+            Task.Run(() =>
+            {
+                _twitterRepository.IncrementTweetCount();
+                _twitterRepository.SaveTweet(tweet);
+            });
+        }
+        catch (TwitterRepositoryException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while saving tweet",
+                nameof(TweetCalculationService), nameof(ReceivedTweetEvent));
+        }
     }
     
     private static double CalculateTweetsPerMinute(TimeSpan timeSpan, long count) => count / timeSpan.TotalMinutes;

@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Tweetinvi.Models.V2;
 using TwitterAPI.Analyzer.API.Services;
@@ -20,6 +21,8 @@ public class TweetController : ControllerBase
     public ActionResult<IEnumerable<long>> GetRecentTweetIds()
     {
         var recentTweetIds = _twitterClientService.GetRecentTweetIds();
+
+        if (recentTweetIds == null) return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
 
         if (!recentTweetIds.Any()) return NoContent();
         

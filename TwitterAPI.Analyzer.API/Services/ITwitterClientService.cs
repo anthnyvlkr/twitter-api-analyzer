@@ -4,7 +4,7 @@ namespace TwitterAPI.Analyzer.API.Services;
 
 public interface ITwitterClientService
 {
-    string[] GetRecentTweetIds();
+    string[]? GetRecentTweetIds();
     Task<TweetV2Response?> GetTweetByIdAsync(string id);
     Task<TweetV2Response?> GetRandomTweet();
 }
