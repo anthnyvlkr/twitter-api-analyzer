@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Tweetinvi.Events.V2;
 using Tweetinvi.Streaming.V2;
+using TwitterAPI.Analyzer.Common.Exceptions;
 using TwitterAPI.Analyzer.Common.Factory;
 using TwitterAPI.Analyzer.Common.Services;
 
@@ -47,7 +48,7 @@ public class TwitterStreamWorker: BackgroundService
             var twitterClient = _twitterClientFactory.CreateTwitterClient();
             _sampleStream = twitterClient.StreamsV2.CreateSampleStream();
             _sampleStream.TweetReceived += TweetReceivedEventHandler;
-            
+
             _logger.Information("{Class}.{Method}: Starting Twitter StreamV2...",
                 nameof(TwitterStreamWorker), nameof(ExecuteAsync));
 
@@ -55,6 +56,16 @@ public class TwitterStreamWorker: BackgroundService
             // I give up trying to prevent it from happening...
             // the ISampleStreamV2 seems to be much more limited than ISampleStream
             await _sampleStream.StartAsync();
+        }
+        catch (TwitterClientFactoryException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Unable to create TwitterClient",
+                nameof(TwitterStreamWorker), nameof(ExecuteAsync));            
+        }
+        catch (TweetCalculationServiceException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Failed to calculate statistics",
+                nameof(TwitterStreamWorker), nameof(ExecuteAsync));            
         }
         catch (Exception e)
         {

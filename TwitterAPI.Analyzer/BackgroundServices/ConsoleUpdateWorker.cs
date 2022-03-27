@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
 using TwitterAPI.Analyzer.Common.BackgroundServices;
+using TwitterAPI.Analyzer.Common.Exceptions;
 using TwitterAPI.Analyzer.Common.Services;
 using TwitterAPI.Analyzer.Configuration;
 
@@ -49,13 +50,18 @@ public class ConsoleUpdateWorker: BackgroundService
 
             return Task.CompletedTask;
         }
+        catch (TweetCalculationServiceException e)
+        {
+            _logger.Error(e, "{Class}.{Method}: Failed to calculate statistics",
+                nameof(ConsoleUpdateWorker), nameof(ExecuteAsync));            
+        }
         catch (Exception e)
         {
             _logger.Error(e, "{Class}.{Method}: Error occurred while streaming tweets",
-                nameof(TwitterStreamWorker), nameof(ExecuteTask));
+                nameof(ConsoleUpdateWorker), nameof(ExecuteTask));
             
-            _timer?.Stop();
-            _timer?.Dispose();
+            _timer.Stop();
+            _timer.Dispose();
         }
         finally
         {

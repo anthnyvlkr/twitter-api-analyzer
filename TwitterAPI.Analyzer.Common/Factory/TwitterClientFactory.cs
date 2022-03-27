@@ -3,6 +3,7 @@ using Serilog;
 using Tweetinvi;
 using Tweetinvi.Models;
 using TwitterAPI.Analyzer.Common.Configuration;
+using TwitterAPI.Analyzer.Common.Exceptions;
 
 namespace TwitterAPI.Analyzer.Common.Factory;
 
@@ -34,10 +35,10 @@ public class TwitterClientFactory : ITwitterClientFactory
         }
         catch (Exception e)
         {
-            // todo: throw custom?
-            // log
-            Console.WriteLine(e);
-            throw;
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while creating TwitterClient",
+                nameof(TwitterClientFactory), nameof(CreateTwitterClient));
+            
+            throw new TwitterClientFactoryException("An error occurred while creating client", e);
         }
         finally
         {

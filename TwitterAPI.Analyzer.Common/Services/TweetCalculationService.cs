@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Serilog;
+using TwitterAPI.Analyzer.Common.Exceptions;
 using TwitterAPI.Analyzer.Common.Models;
 
 namespace TwitterAPI.Analyzer.Common.Services;
@@ -27,7 +28,7 @@ public class TweetCalculationService : ITweetCalculationService
     private static double CalculateTweetsPerMinute(TimeSpan timeSpan, int count) => count / timeSpan.TotalMinutes;
     private static double CalculateTweetsPerSecond(TimeSpan timeSpan, int count) => count / timeSpan.TotalSeconds;
     
-    public TweetStatistics? GetTweetStreamStatistics()
+    public TweetStatistics GetTweetStreamStatistics()
     {
         _logger.Verbose("{Class}.{Method}: Beginning Execution",
             nameof(TweetCalculationService), nameof(GetTweetStreamStatistics));
@@ -52,9 +53,10 @@ public class TweetCalculationService : ITweetCalculationService
         }
         catch (Exception e)
         {
-            // todo: custom exception and log
-            Console.WriteLine(e);
-            return default;
+            _logger.Error(e, "{Class}.{Method}: Exception occurred while calculating statistics",
+                nameof(TweetCalculationService), nameof(GetTweetStreamStatistics));
+            
+            throw new TweetCalculationServiceException("An error occurred while calculating statistics", e);
         }
         finally
         {
