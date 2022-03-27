@@ -15,4 +15,8 @@
         <PackageReference Include="TweetinviAPI" Version="5.0.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TwitterAPI.Analyzer.Storage\TwitterAPI.Analyzer.Storage.csproj" />
+    </ItemGroup>
+
 </Project>
