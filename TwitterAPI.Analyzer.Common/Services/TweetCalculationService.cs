@@ -1,18 +1,24 @@
 using System.Diagnostics;
 using Serilog;
+using Tweetinvi.Models.V2;
 using TwitterAPI.Analyzer.Common.Exceptions;
 using TwitterAPI.Analyzer.Common.Models;
+using TwitterAPI.Analyzer.Storage.Repository;
 
 namespace TwitterAPI.Analyzer.Common.Services;
 
 public class TweetCalculationService : ITweetCalculationService
 {
+    private readonly ITwitterRepository _twitterRepository;
     private readonly ILogger _logger;
     private readonly Stopwatch _stopwatch;
-    private int _tweetCount;
-
-    public TweetCalculationService(ILogger logger)
+    
+    
+    public TweetCalculationService(
+        ITwitterRepository twitterRepository, 
+        ILogger logger)
     {
+        _twitterRepository = twitterRepository ?? throw new ArgumentNullException(nameof(twitterRepository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _stopwatch = new Stopwatch();
     }
@@ -22,11 +28,18 @@ public class TweetCalculationService : ITweetCalculationService
     public void StartTimer() => _stopwatch.Start();
     
     public void StopTimer() => _stopwatch.Stop();
-
-    public void ReceivedTweetEvent() => Interlocked.Increment(ref _tweetCount);
-
-    private static double CalculateTweetsPerMinute(TimeSpan timeSpan, int count) => count / timeSpan.TotalMinutes;
-    private static double CalculateTweetsPerSecond(TimeSpan timeSpan, int count) => count / timeSpan.TotalSeconds;
+    
+    public void ReceivedTweetEvent(TweetV2  tweet)
+    {
+        Task.Run(() =>
+        {
+            _twitterRepository.IncrementTweetCount();
+            _twitterRepository.SaveTweetAsync(tweet);
+        });
+    }
+    
+    private static double CalculateTweetsPerMinute(TimeSpan timeSpan, long count) => count / timeSpan.TotalMinutes;
+    private static double CalculateTweetsPerSecond(TimeSpan timeSpan, long count) => count / timeSpan.TotalSeconds;
     
     public TweetStatistics GetTweetStreamStatistics()
     {
@@ -37,7 +50,7 @@ public class TweetCalculationService : ITweetCalculationService
         {
             // get count and elapsed at this point to avoid
             // count increasing or time continuing
-            var count = _tweetCount;
+            var count = _twitterRepository.GetTweetCount();
             var elapsedTimeSpan = _stopwatch.Elapsed;
 
             var tweetsPerMinute = CalculateTweetsPerMinute(elapsedTimeSpan, count);

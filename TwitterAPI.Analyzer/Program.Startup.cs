@@ -41,7 +41,7 @@ public partial class Program
 
                 // Service dependencies
                 services.AddSingleton<ITwitterClientFactory, TwitterClientFactory>();
-                services.AddSingleton<ITweetCalculationService, TweetCalculationService2>();
+                services.AddSingleton<ITweetCalculationService, TweetCalculationService>();
                 services.AddSingleton<ITwitterRepository, TwitterRepository>();
                 services.AddSingleton<IFakeDb, FakeDb>();
                 services.AddSingleton(Log.Logger);

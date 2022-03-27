@@ -37,7 +37,7 @@ builder.Services.AddHostedService<TwitterStreamWorker>()
     .AddLogging(hostBuilder => hostBuilder.AddSerilog(Log.Logger));
 
 // Service dependencies
-builder.Services.AddSingleton<ITweetCalculationService, TweetCalculationService2>();
+builder.Services.AddSingleton<ITweetCalculationService, TweetCalculationService>();
 builder.Services.AddSingleton<ITwitterClientFactory, TwitterClientFactory>();
 builder.Services.AddSingleton<ITwitterClientService, TwitterClientService>();
 builder.Services.AddSingleton<ITwitterRepository, TwitterRepository>();

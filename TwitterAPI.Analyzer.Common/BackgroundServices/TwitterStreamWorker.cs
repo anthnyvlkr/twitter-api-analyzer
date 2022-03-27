@@ -91,9 +91,7 @@ public class TwitterStreamWorker: BackgroundService
         // start timer if not running
         if (!_tweetCalculationService.IsTimerRunning) _tweetCalculationService.StartTimer();
         
-        // create task for each event
-        // short lived and should be recovered and reused by the thread pool
-        Task.Run(() => _tweetCalculationService.ReceivedTweetEvent());
+        _tweetCalculationService.ReceivedTweetEvent(tweetReceivedEventArgs.Tweet);
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
