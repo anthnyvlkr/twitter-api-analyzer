@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer", "TwitterAPI.Analyzer\TwitterAPI.Analyzer.csproj", "{BD8962E3-105F-44AC-822E-19D364708B1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Tests", "TwitterAPI.Analyzer.Tests\TwitterAPI.Analyzer.Tests.csproj", "{F1080E90-805B-4FAB-9730-59422F0422D0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Common", "TwitterAPI.Analyzer.Common\TwitterAPI.Analyzer.Common.csproj", "{4C089B77-53F9-4838-B4C3-A91AFF759BDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.API", "TwitterAPI.Analyzer.API\TwitterAPI.Analyzer.API.csproj", "{04C0B6E0-4238-42B7-86BC-8E4AB701F0D9}"
@@ -20,10 +18,6 @@ Global
 		{BD8962E3-105F-44AC-822E-19D364708B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD8962E3-105F-44AC-822E-19D364708B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD8962E3-105F-44AC-822E-19D364708B1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1080E90-805B-4FAB-9730-59422F0422D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1080E90-805B-4FAB-9730-59422F0422D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1080E90-805B-4FAB-9730-59422F0422D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1080E90-805B-4FAB-9730-59422F0422D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C089B77-53F9-4838-B4C3-A91AFF759BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C089B77-53F9-4838-B4C3-A91AFF759BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C089B77-53F9-4838-B4C3-A91AFF759BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
