@@ -8,6 +8,8 @@ using TwitterAPI.Analyzer.Common.Configuration;
 using TwitterAPI.Analyzer.Common.Factory;
 using TwitterAPI.Analyzer.Common.Services;
 using TwitterAPI.Analyzer.Configuration;
+using TwitterAPI.Analyzer.Storage.FakeDb;
+using TwitterAPI.Analyzer.Storage.Repository;
 
 namespace TwitterAPI.Analyzer;
 
@@ -38,9 +40,12 @@ public partial class Program
                     .AddLogging(builder => builder.AddSerilog(Log.Logger));
 
                 // Service dependencies
-                services.AddSingleton<ITweetCalculationService, TweetCalculationService>();
                 services.AddSingleton<ITwitterClientFactory, TwitterClientFactory>();
+                services.AddSingleton<ITweetCalculationService, TweetCalculationService2>();
+                services.AddSingleton<ITwitterRepository, TwitterRepository>();
+                services.AddSingleton<IFakeDb, FakeDb>();
                 services.AddSingleton(Log.Logger);
+
                 
                 // options
                 services.Configure<TwitterClientConfiguration>(
