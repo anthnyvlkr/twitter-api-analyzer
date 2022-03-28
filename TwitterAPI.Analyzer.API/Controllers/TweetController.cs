@@ -40,7 +40,7 @@ public class TweetController : ControllerBase
     }
     
     [HttpGet("random")]
-    public async Task<ActionResult<TweetV2>> GetCurrentTweetStatisticsAsync()
+    public async Task<ActionResult<TweetV2>> GetRandomTweet()
     {
         var response = await _twitterClientService.GetRandomTweet();
 
