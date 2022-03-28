@@ -66,11 +66,11 @@ public class GetHashtagStatisticsTests : TweetCalculationServiceTests
         _mockTwitterRepo.GetHashtags().Returns(new Dictionary<string, long>());
         
         // act
-        var result = _sut.GetHashtagStatistics();
+        _ = _sut.GetHashtagStatistics();
         
         // assert
-        _mockLogger.Received(2).Verbose(
-            Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        _mockLogger.Received(2)
+            .Verbose(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
     }
     
     [Fact]
