@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.API", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Storage", "TwitterAPI.Analyzer.Storage\TwitterAPI.Analyzer.Storage.csproj", "{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterAPI.Analyzer.Common.Tests", "TwitterAPI.Analyzer.Common.Tests\TwitterAPI.Analyzer.Common.Tests.csproj", "{45B2E1EA-84EA-4895-A8F1-50BF4A786DE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{040609BE-1EA8-4BF6-ADFB-65DCCD0F1F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45B2E1EA-84EA-4895-A8F1-50BF4A786DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B2E1EA-84EA-4895-A8F1-50BF4A786DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B2E1EA-84EA-4895-A8F1-50BF4A786DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B2E1EA-84EA-4895-A8F1-50BF4A786DE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
