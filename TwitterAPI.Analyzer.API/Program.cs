@@ -37,6 +37,7 @@ builder.Services.AddHostedService<TwitterStreamWorker>()
 
 // Service dependencies
 builder.Services.AddSingleton<ITweetCalculationService, TweetCalculationService>();
+builder.Services.AddSingleton<IStopwatchService, StopwatchService>();
 builder.Services.AddSingleton<ITwitterClientFactory, TwitterClientFactory>();
 builder.Services.AddSingleton<ITwitterClientService, TwitterClientService>();
 builder.Services.AddSingleton<ITwitterRepository, TwitterRepository>();
