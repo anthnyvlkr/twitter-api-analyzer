@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Serilog;
 using Tweetinvi.Models.V2;
 using TwitterAPI.Analyzer.Common.Exceptions;
@@ -11,23 +10,24 @@ namespace TwitterAPI.Analyzer.Common.Services;
 public class TweetCalculationService : ITweetCalculationService
 {
     private readonly ITwitterRepository _twitterRepository;
+    private readonly IStopwatchService _stopwatchService;
     private readonly ILogger _logger;
-    private readonly Stopwatch _stopwatch;
 
     public TweetCalculationService(
         ITwitterRepository twitterRepository, 
+        IStopwatchService stopwatchService,
         ILogger logger)
     {
         _twitterRepository = twitterRepository ?? throw new ArgumentNullException(nameof(twitterRepository));
+        _stopwatchService = stopwatchService ?? throw new ArgumentNullException(nameof(stopwatchService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _stopwatch = new Stopwatch();
     }
 
-    public bool IsTimerRunning => _stopwatch.IsRunning;
+    public bool IsTimerRunning => _stopwatchService.IsRunning;
     
-    public void StartTimer() => _stopwatch.Start();
+    public void StartTimer() => _stopwatchService.StartTimer();
     
-    public void StopTimer() => _stopwatch.Stop();
+    public void StopTimer() => _stopwatchService.StopTimer();
     
     public void ReceivedTweetEvent(TweetV2  tweet)
     {
@@ -58,7 +58,7 @@ public class TweetCalculationService : ITweetCalculationService
         {
             // get count and elapsed at this point to avoid count increasing or time continuing
             var count = _twitterRepository.GetTweetCount();
-            var elapsedTimeSpan = _stopwatch.Elapsed;
+            var elapsedTimeSpan = _stopwatchService.Elapsed;
 
             var tweetsPerMinute = CalculateTweetsPerMinute(elapsedTimeSpan, count);
             var tweetsPerSecond = CalculateTweetsPerSecond(elapsedTimeSpan, count);
@@ -68,7 +68,7 @@ public class TweetCalculationService : ITweetCalculationService
                 TotalCount = count,
                 PerMinute = tweetsPerMinute,
                 PerSecond = tweetsPerSecond,
-                RunTime = _stopwatch.Elapsed
+                RunTime = elapsedTimeSpan
             };
         }
         catch (Exception e)
