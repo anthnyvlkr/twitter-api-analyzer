@@ -11,8 +11,7 @@ public class TweetController : ControllerBase
 {
     private readonly ITwitterClientService _twitterClientService;
 
-    public TweetController(
-        ITwitterClientService twitterClientService)
+    public TweetController(ITwitterClientService twitterClientService)
     {
         _twitterClientService = twitterClientService ?? throw new ArgumentNullException(nameof(twitterClientService));
     }
@@ -44,7 +43,7 @@ public class TweetController : ControllerBase
     {
         var response = await _twitterClientService.GetRandomTweet();
 
-        if (response is null) return NotFound();
+        if (response == null) return new StatusCodeResult((int) HttpStatusCode.InternalServerError);
         
         return Ok(response.Tweet);
     }
