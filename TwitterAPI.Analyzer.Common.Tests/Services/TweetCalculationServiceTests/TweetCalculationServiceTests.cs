@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Bogus;
 using NSubstitute;
 using Serilog;
@@ -6,6 +7,7 @@ using TwitterAPI.Analyzer.Storage.Repository;
 
 namespace TwitterAPI.Analyzer.Common.Tests.Services.TweetCalculationServiceTests;
 
+[ExcludeFromCodeCoverage]
 public class TweetCalculationServiceTests
 {
     protected readonly TweetCalculationService _sut;
