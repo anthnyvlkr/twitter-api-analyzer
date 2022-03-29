@@ -40,3 +40,4 @@ You will need to add user secrets to both TwitterAPI.Analyzer and TwitterAPI.Ana
 - async things better?
 - whatever else seems cool
 - store existing twitterClient connection instead of making new?
+- figure out why sampleStream.StopAsync doesn't actually stop and causes StartAsync to explode shortly after stopping 8/
