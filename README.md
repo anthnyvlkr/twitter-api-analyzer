@@ -39,3 +39,4 @@ You will need to add user secrets to both TwitterAPI.Analyzer and TwitterAPI.Ana
 - more tests
 - async things better?
 - whatever else seems cool
+- store existing twitterClient connection instead of making new?
